@@ -48,13 +48,22 @@ cmp.setup({
       -- luasnip.lsp_expand(args.body)
     end,
   },
-		formatting = {
-      format = require("tailwindcss-colorizer-cmp").formatter,
-      -- format = lspkind.cmp_format({
-      -- with_text = false,
-      -- maxwidth = 50,
-      -- menu = {buffer = "[Buf]", nvim_lsp = "[LSP]", dictionary = "[Dict]"}
+  formatting = {
+  fields = { "kind", "abbr", "menu" },
+    format = function(_, item)
+      local icons = require("lazyvim.config").icons.kinds
+      if icons[item.kind] then
+        item.kind = icons[item.kind]
+      end
+      return item
+
+    -- format = require("tailwindcss-colorizer-cmp").formatter,
+    -- format = lspkind.cmp_format({
+    --   with_text = false,
+    --   maxwidth = 50,
+    --   menu = {buffer = "[Buf]", nvim_lsp = "[LSP]", dictionary = "[Dict]"}
     -- })
+    end
   },
   mapping = cmp.mapping.preset.insert({
     -- ['<C-b>'] = cmp.mapping.scroll_docs(-4),

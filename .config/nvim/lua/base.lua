@@ -8,6 +8,13 @@ vim.cmd [[ augroup END]]
 vim.cmd("let g:git_messenger_floating_win_opts = { 'border': 'single'}")
 vim.cmd("let g:git_messenger_popup_content_margins = v:false")
 
+-- Define custom FZF command to exclude node_modules directory
+vim.cmd([[
+  let $FZF_DEFAULT_COMMAND='find . \( -name node_modules -o -name .git \) -prune -o -print'
+]])
+
+vim.env.FZF_DEFAULT_COMMAND = 'ag -g ""'
+
 vim.g['closetag_filenames'] = '*.erb'
 
 vim.g.markdown_fenced_languages = {'html', 'ruby'}
@@ -16,18 +23,16 @@ vim.o.termguicolors = true
 -- Faster completion
 vim.cmd('set updatetime=300')
 vim.cmd('set timeoutlen=500')
+vim.cmd('set pumheight=10') 
 vim.cmd('set mouse=a')
 vim.cmd('set noshowmode')
-vim.cmd('set hidden') -- Required to keep multiple buffers open multiple buffers
--- vim.cmd('set lazyredraw') -- Improve scrolling performance when navigating through large results
-vim.cmd('set ttyfast') -- U got a fast terminal
+vim.cmd('set hidden')           -- Required to keep multiple buffers open multiple buffers
+vim.cmd('set lazyredraw')       -- Improve scrolling performance when navigating through large results
+vim.cmd('set ttyfast')          -- U got a fast terminal
 vim.cmd('set regexpengine=1')
 vim.cmd('set synmaxcol=4096')
 vim.cmd('set fo-=c fo-=r fo-=o')
--- add asterisks in block comments
--- vim.opt.formatoptions:append { 'r' }
-
--- vim.cmd('set shortmess+=c')
+vim.cmd('set completeopt=menu,menuone,noselect')
 
 vim.scriptencoding = 'utf-8'
 vim.opt.encoding = 'utf-8'
@@ -44,32 +49,37 @@ vim.opt.hlsearch = true
 vim.opt.backup = false
 vim.opt.showcmd = true
 vim.opt.cmdheight = 1
-vim.opt.laststatus = 2
+-- enable statusline
+-- vim.opt.laststatus = 2
+-- turn off statusline
+vim.opt.laststatus = 0
 vim.opt.expandtab = true
 vim.opt.scrolloff = 5
-vim.opt.shell = 'fish'
+-- vim.opt.shell = 'fish'
 vim.opt.backupskip = { '/tmp/*', '/private/tmp/*' }
 vim.opt.inccommand = 'split'
 vim.opt.ignorecase = true
 vim.opt.shiftwidth = 2
+-- vim.opt.spelllang = 'en_us'
+-- vim.opt.spell = true
+-- vim.opt.tabstop = 2
 vim.opt.tabstop = 2
 vim.opt.wrap = false -- No Wrap lines
 vim.opt.backspace = { 'start', 'eol', 'indent' }
 
 -- vim.opt.path:append { '**' } -- Finding files - Search down into subfolders
--- vim.opt.wildignore:append { '*/node_modules/*' }
+vim.opt.wildignore:append { '*/node_modules/*' }
 
--- vim.cmd('set list')
+-- vim.cmd(' au FileType javascript set list')
+vim.cmd('set clipboard=unnamedplus')
 -- Disable tabline when we have more than one
 -- vim.cmd('set showtabline=0')
 -- vim.cmd('set list listchars=tab:»·,trail:·')
 
--- Enable automatic trailing whitespace removal
--- vim.cmd([[au BufWritePre *.rb :%s/\s\+$//e]])
-
+-- Stop continue comment
 vim.cmd([[ au FileType * set fo-=c fo-=r fo-=o ]])
--- Go file config
--- vim.cmd([[au FileType go set noexpandtab]])
--- vim.cmd([[au FileType go set shiftwidth=4]])
--- vim.cmd([[au FileType go set softtabstop=4]])
--- vim.cmd([[au FileType go set tabstop=4]])
+
+vim.cmd([[ au BufNewFile,BufRead *.hurl set ft=http ]])
+
+-- vim.cmd([[ au FileType javascript set shiftwidth=3 ]])
+-- vim.cmd([[ au FileType javascriptreact set shiftwidth=3 ]])

@@ -13,7 +13,7 @@ local rep = require("luasnip.extras").rep
 
 local snippets, autosnippets = {}, {} --}}}
 
-local group = vim.api.nvim_create_augroup("Typescript React Snippets", { clear = true })
+local group = vim.api.nvim_create_augroup("Ruby Snippets", { clear = true })
 local file_pattern = "*.rb"
 
 local def = s(
@@ -63,10 +63,21 @@ local print_line_with_object = s(
   )
 )
 
+local email_format = s(
+  "email",
+  fmt([[ 
+    @kms-technology.com 
+  ]],
+    {
+    }
+  )
+)
+
 -- Auto snippets when finished typed the whole key trigger (Regular expressions)
 table.insert(snippets, def)
 table.insert(snippets, print_line_with_object)
 table.insert(snippets, debug)
+table.insert(snippets, email_format)
 
 table.insert(autosnippets, print_line)
 -- table.insert(autosnippets, short_hand_if_statement)

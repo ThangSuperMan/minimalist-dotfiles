@@ -23,7 +23,7 @@ return function()
   vim.api.nvim_exec([[
         augroup FormatAutogroup
           autocmd!
-          autocmd BufWritePost *.html,*.ruby,*.mjs,*.ts,*.tsx,*.jsx,*.js,*.lua,*.md,*.mdx,*.yml,*.json,*.svelte,*.sol,*.go,*.scss,*.css,*.yaml FormatWrite
+          autocmd BufWritePost *.html,*.mjs,*.ts,*.tsx,*.jsx,*.js,*.lua,*.md,*.mdx,*.yml,*.json,*.svelte,*.sol,*.go,*.css,*.yaml FormatWrite
         augroup END
     ]], true)
 
@@ -67,22 +67,22 @@ return function()
           return { exe = "gofmt", stdin = true }
         end
       },
-      ruby = {
-        function()
-          return {
-            exe = "rubocop",
-            args = {
-              "--fix-layout",
-              "--stdin",
-              util.escape_path(util.get_current_buffer_file_name()),
-              "--format",
-              "files",
-              "--stderr",
-            },
-            stdin = true,
-          }
-        end
-      },
+      -- ruby = {
+      --   function()
+      --     return {
+      --       exe = "rubocop",
+      --       args = {
+      --         "--fix-layout",
+      --         "--stdin",
+      --         util.escape_path(util.get_current_buffer_file_name()),
+      --         "--format",
+      --         "files",
+      --         "--stderr",
+      --       },
+      --       stdin = true,
+      --     }
+      --   end
+      -- },
       dart = {
         function(t)
           t = t or {}

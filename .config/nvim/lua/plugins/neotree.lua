@@ -4,7 +4,7 @@ vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 require("neo-tree").setup({
   close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
   popup_border_style = "rounded",
-  enable_git_status = false,
+  enable_git_status = true,
   enable_diagnostics = false,
   sort_case_insensitive = false, -- used when sorting files and directories in the tree
   sort_function = nil, -- use a custom function for sorting files and directories in the tree 
@@ -65,6 +65,7 @@ require("neo-tree").setup({
 window = {
     position = "left",
     width = 48,
+    -- width = 40,
     mapping_options = {noremap = true, nowait = true},
     mappings = {
 	["<space>"] = {

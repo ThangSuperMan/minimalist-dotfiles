@@ -13,6 +13,9 @@ keymap.set('n', '<S-Right>', '<M-l> :vertical resize +5<CR>', { noremap = true }
 
 keymap.set('n', '<leader>s', ':Switch<CR>', { noremap = true })
 
+-- Format ruby code
+keymap.set('n', '<leader>rf', ':RuboCopFix<CR>', { noremap = true })
+
 -- Float terminal
 vim.g.floaterm_keymap_toggle = '<C-\\>'
 
@@ -44,6 +47,8 @@ vim.api.nvim_set_keymap('n', '<C-l>', ':wincmd l<CR>', { noremap = true })
 -- Increment/decrement
 keymap.set('n', '+', '<C-a>')
 keymap.set('n', '-', '<C-x>')
+
+keymap.set('n', '<leader>n', ':set number!<CR>', { noremap = true })
 
 -- Markdown
 keymap.set('n', '<leader>mp', ':MarkdownPreview<CR>', { noremap = true })
@@ -80,6 +85,7 @@ keymap.set("n", "[d", "<cmd>lua vim.dianostics.goto_next()<CR>")
 keymap.set("n", "]d", "<cmd>lua vim.dianostics.goto_prev()<CR>")
 -- keymap.set("n", "gD", '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
 keymap.set("n", "gd", '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+keymap.set("n", "fa", '<cmd>Lspsaga finder<CR>', opts)
 -- keymap.set("n", "K", '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
 keymap.set("n", "<space>rn", '<cmd>Lspsaga rename<CR>', opts)
 -- keymap.set("n", "<space>rn", '<cmd>lua vim.lsp.buf.rename()<CR>', opts)

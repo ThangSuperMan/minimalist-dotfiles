@@ -2,6 +2,7 @@ return function()
   local home = vim.fn.expand('~')
   local nvim_lsp = require('lspconfig')
   local protocol = require('vim.lsp.protocol')
+  local util = require("lspconfig.util")
 
   local function organize_imports()
     local params = {
@@ -82,7 +83,7 @@ end
   -- Setup html
 
   -- Error handling for solidity to slow
-  require 'lspconfig'.solang.setup {}
+  -- require 'lspconfig'.solang.setup {}
 
   -- Solidity
   -- cmd: sudo npm install -g solidity-language-server
@@ -97,26 +98,15 @@ end
   --   },
   -- }
 
-  -- Php
-  -- nvim_lsp.intelephense.setup{
-  --     capabilities = capabilities,
-  --     on_attach = on_attach,
-  -- }
-
-  nvim_lsp.rust_analyzer.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
-
   nvim_lsp.tailwindcss.setup {
     on_attach = on_attach,
     capabilities = capabilities,
   }
 
-  nvim_lsp.pyright.setup {
-   on_attach = on_attach,
-   capability = capabilities
-  }
+  -- nvim_lsp.pyright.setup {
+  --  on_attach = on_attach,
+  --  capability = capabilities
+  -- }
 
   -- Bash
   -- brew install shellcheck -> for linting(diagnostics)
@@ -142,38 +132,38 @@ end
 -- Website for get json schemas
 -- https://www.schemastore.org/json/
 
-nvim_lsp.yamlls.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-  filetypes = { "yml", "yaml", "yaml.docker-compose", "config" },
-  settings =  {
-    yaml = {
-      format = { enable = true },
-      editor = { formatOnType = true },
-      validate = true,
-      schemaDownload = { enable = true },
-      completion = true,
-      hover = true,
-      schemas = {
-        ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*.{yml,yaml}",
-        ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
-        ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
-        ["http://json.schemastore.org/prettierrc"] = ".prettierrc.{yml,yaml}",
-        ["http://json.schemastore.org/kustomization"] = "kustomization.{yml,yaml}",
-        -- Load the ansible json (dictionay for codecompletion) for yamls use
-        ["file://" .. home .. "/.config/nvim/json-schema/ansible/inventory.yml.json"] = "*inventory*.{yml,yaml}",
-        ["file://" .. home .. "/.config/nvim/json-schema/ansible/playbook.yml.json"] = "*play*.{yml,yaml}",
-        ["http://json.schemastore.org/chart"] = "Chart.{yml,yaml}",
-        ["https://json.schemastore.org/dependabot-v2"] = ".github/dependabot.{yml,yaml}",
-        ["file://" .. home .. "/.config/nvim/json-schema/gitlab.yml.json"] = "*gitlab-ci*.{yml,yaml}",
-        ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] = "*api*.{yml,yaml}",
-        ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose.{yml,yaml}",
-        ["https://raw.githubusercontent.com/robbyki/schemas/1f05c98df4ca8398f502f554734ff5e87acfcc4c/openshift/all.json"] = "/*.yaml",
-        kubernetes = { "/*.yaml" },
-      },
-    },
-  },
-})
+-- nvim_lsp.yamlls.setup({
+--   on_attach = on_attach,
+--   capabilities = capabilities,
+--   filetypes = { "yml", "yaml", "yaml.docker-compose", "config" },
+--   settings =  {
+--     yaml = {
+--       format = { enable = true },
+--       editor = { formatOnType = true },
+--       validate = true,
+--       schemaDownload = { enable = true },
+--       completion = true,
+--       hover = true,
+--       schemas = {
+--         ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*.{yml,yaml}",
+--         ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
+--         ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
+--         ["http://json.schemastore.org/prettierrc"] = ".prettierrc.{yml,yaml}",
+--         ["http://json.schemastore.org/kustomization"] = "kustomization.{yml,yaml}",
+--         -- Load the ansible json (dictionay for codecompletion) for yamls use
+--         ["file://" .. home .. "/.config/nvim/json-schema/ansible/inventory.yml.json"] = "*inventory*.{yml,yaml}",
+--         ["file://" .. home .. "/.config/nvim/json-schema/ansible/playbook.yml.json"] = "*play*.{yml,yaml}",
+--         ["http://json.schemastore.org/chart"] = "Chart.{yml,yaml}",
+--         ["https://json.schemastore.org/dependabot-v2"] = ".github/dependabot.{yml,yaml}",
+--         ["file://" .. home .. "/.config/nvim/json-schema/gitlab.yml.json"] = "*gitlab-ci*.{yml,yaml}",
+--         ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] = "*api*.{yml,yaml}",
+--         ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose.{yml,yaml}",
+--         ["https://raw.githubusercontent.com/robbyki/schemas/1f05c98df4ca8398f502f554734ff5e87acfcc4c/openshift/all.json"] = "/*.yaml",
+--         kubernetes = { "/*.yaml" },
+--       },
+--     },
+--   },
+-- })
         
 -- nvim_lsp.ansiblels.setup{
 --   on_attach = on_attach,
@@ -231,15 +221,6 @@ nvim_lsp.yamlls.setup({
     on_attach = on_attach,
   }
 
-  -- nvim_lsp.jdtls.setup {
-  --   on_attach = on_attach,
-  --   cmd = { 'jdtls' }
-  -- }
-  
-  -- nvim_lsp.ruby_ls.setup({
-  --   cmd = { "bundle", "exec", "ruby-lsp" }
-  -- })
-
   nvim_lsp.eslint.setup({
      on_attach = function(client, bufnr)
        vim.api.nvim_create_autocmd("BufWritePre", {
@@ -249,44 +230,30 @@ nvim_lsp.yamlls.setup({
      end,
   })
 
-  -- nvim_lsp.csharp_ls.setup { }
-  nvim_lsp.omnisharp.setup({
-  -- cmd = { "C:/Users/bakkenl/scoop/shims/OmniSharp.exe", "--languageserver", "--hostPID", tostring(pid) },
-  -- capabilities = lsp_caps,
-  -- -- root_dir = lspcfg_util.find_git_ancestor,
-  -- on_attach = function (client, bufnr)
-  --   -- https://github.com/OmniSharp/omnisharp-roslyn/issues/2483#issuecomment-1492605642
-  --   local tokenModifiers = client.server_capabilities.semanticTokensProvider.legend.tokenModifiers
-  --   for i, v in ipairs(tokenModifiers) do
-  --     tmp = string.gsub(v, ' ', '_')
-  --     tokenModifiers[i] = string.gsub(tmp, '-_', '')
-  --   end
-  --   local tokenTypes = client.server_capabilities.semanticTokensProvider.legend.tokenTypes
-  --   for i, v in ipairs(tokenTypes) do
-  --     tmp = string.gsub(v, ' ', '_')
-  --     tokenTypes[i] = string.gsub(tmp, '-_', '')
-  --   end
-  --   on_attach(client, bufnr)
-  -- end,
-  -- flags = {
-  --   debounce_text_changes = 150,
+  -- nvim_lsp.jsonls.setup {
+  --   on_attach = on_attach
   -- }
-})
-
-  nvim_lsp.jsonls.setup {
-    on_attach = on_attach
-  }
  
-  nvim_lsp.angularls.setup {
-    on_attach = on_attach
+  -- nvim_lsp.angularls.setup {
+  --   on_attach = on_attach
+  -- }
+
+  nvim_lsp.ruby_lsp.setup {
+    on_attach = on_attach,
+    init_options = { formatter = "auto" },
   }
 
-  nvim_lsp.solargraph.setup {
-    on_attach = on_attach,
-    diagnostics = {
-      disable = { 'trailing-space' }
-    },
+  nvim_lsp.rubocop.setup {
+    on_attach = on_attach
   }
+  
+  -- nvim_lsp.solargraph.setup {
+  --   on_attach = on_attach,
+  -- }
+
+  -- nvim_lsp.sorbet.setup {
+  --   on_attach = on_attach,
+  -- }
   
   nvim_lsp.tsserver.setup {
     on_attach = on_attach,
@@ -304,7 +271,6 @@ nvim_lsp.yamlls.setup({
   }
 
   -- Diagnostic symbols in the sign column (gutter)
-  -- local signs = { Error = " ", Warn = " ", Hint = "ﴞ ", Info = " " }
   local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
   for type, icon in pairs(signs) do
     local hl = "DiagnosticSign" .. type
@@ -324,6 +290,6 @@ nvim_lsp.yamlls.setup({
   }
   )
 
-  vim.keymap.set('n', '<leader>o', '<cmd>OrganizeImports <cr>')
-  vim.keymap.set('n', '<leader>a', '<cmd>TypescriptAddMissingImports<cr>')
+  -- vim.keymap.set('n', '<leader>o', '<cmd>OrganizeImports <cr>')
+  -- vim.keymap.set('n', '<leader>a', '<cmd>TypescriptAddMissingImports<cr>')
 end
